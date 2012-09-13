@@ -16,27 +16,30 @@ module Datainsight
         else
           configure_development(type)
       end
+
+      logger.debug { "Logging configures" }
     end
 
     private
     def self.configure_development type
-      ::Logging.appenders.stdout(:stdout)
-      ::Logging.appenders.rolling_file(:file, :filename => log_file_location(type, :development),
-                                     :age => 'daily')
+      ::Logging.appenders.stdout(:stdout, :layout => layout_pattern)
+      ::Logging.appenders.file(:file, :filename => log_file_location(type, :development),
+                               :layout => layout_pattern)
       ::Logging.appenders.growl(:growl, :level => :error,
-                              :layout => ::Logging::Layouts.pattern(:pattern => '%-5l: %m\n'))
+                                :layout => ::Logging::Layouts.pattern(:pattern => '%-5l: %m\n'))
 
       ::Logging.logger.root.appenders = [:stdout, :file, :growl]
       ::Logging.logger.root.level = :debug
     end
 
     def self.configure_production type
-      ::Logging.appenders.rolling_file(:file, :filename => log_file_location(type, :production),
-                                     :age => 'daily', :layout => ::Logging::Layouts.json)
+      ::Logging.appenders.file(:file, :filename => log_file_location(type, :production),
+                               :layout => layout_pattern)
 
       ::Logging.logger.root.appenders = [:file]
       ::Logging.logger.root.level = :info
     end
+
 
     def self.configure_test
       ::Logging.appenders.stdout(:stdout)
@@ -47,6 +50,10 @@ module Datainsight
 
     def self.log_file_location type, env
       type ? "log/#{type}-#{env}.log" : "log/#{env}.log"
+    end
+
+    def self.layout_pattern
+      ::Logging::Layouts.pattern(:pattern => "%c [%-5l] %d: %m\n")
     end
 
     module Helpers
