@@ -5,7 +5,7 @@ require_relative "lib/datainsight_logging"
 
 desc "Publish gem to GemFury.org"
 task :publish_gem do |t|
-  gem = GemPublisher.publish_if_updated("datainsight_logging.gemspec", :gemfury)
+  gem = GemPublisher.publish_if_updated("datainsight_logging.gemspec", :gemfury, :as => 'govuk')
   puts "Published #{gem}" if gem
 end
 

@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency('logging')
 
   gem.add_development_dependency("rake")
-  gem.add_development_dependency("gem_publisher", "~> 1.1.1")
+  gem.add_development_dependency("gem_publisher", "~> 1.2.0")
   gem.add_development_dependency("gemfury")
 
 end
