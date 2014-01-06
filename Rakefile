@@ -3,9 +3,9 @@ require "bundler/gem_tasks"
 require "gem_publisher"
 require_relative "lib/datainsight_logging"
 
-desc "Publish gem to GemFury.org"
+desc "Publish gem to Rubygems"
 task :publish_gem do |t|
-  gem = GemPublisher.publish_if_updated("datainsight_logging.gemspec", :gemfury, :as => 'govuk')
+  gem = GemPublisher.publish_if_updated("datainsight_logging.gemspec", :rubygems)
   puts "Published #{gem}" if gem
 end
 
@@ -30,5 +30,3 @@ namespace :demo do
     end
   }
 end
-
-
